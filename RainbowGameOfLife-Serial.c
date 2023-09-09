@@ -46,6 +46,110 @@ void GenerateGrid(float **grid){
 void getNeighbors(float **grid, int i, int j){
     int count = 0;
 
+    //Verificando se a célula está na borda superior
+    if(i == 0){
+        //Verificando se a célula está na borda superior esquerda
+        if(j == 0){
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[i + 1][j + 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][N - 1] == 1.0) count++;
+            if(grid[i][N - 1] == 1.0) count++;
+            if(grid[N - 1][N - 1] == 1.0) count++;
+            if(grid[N - 1][j] == 1.0) count++;
+            if(grid[N - 1][j + 1] == 1.0) count++;
+        }
+        //Verificando se a célula está na borda superior direita
+        else if(j == N - 1){
+            if(grid[i][j - 1] == 1.0) count++;
+            if(grid[i + 1][j - 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][0] == 1.0) count++;
+            if(grid[i][0] == 1.0) count++;
+            if(grid[N - 1][0] == 1.0) count++;
+            if(grid[N - 1][j] == 1.0) count++;
+            if(grid[N - 1][j - 1] == 1.0) count++;
+        }
+        //Verificando se a célula está na borda superior central
+        else{
+            if(grid[i][j - 1] == 1.0) count++;
+            if(grid[i + 1][j - 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][j + 1] == 1.0) count++;
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[N - 1][j + 1] == 1.0) count++;
+            if(grid[N - 1][j] == 1.0) count++;
+            if(grid[N - 1][j - 1] == 1.0) count++;
+        }
+    }else if (i == N - 1){ //Verificando se a célula está na borda inferior
+        //Verificando se a célula está na borda inferior esquerda
+        if(j == 0){
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][j + 1] == 1.0) count++;
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[0][j + 1] == 1.0) count++;
+            if(grid[0][j] == 1.0) count++;
+            if(grid[0][N - 1] == 1.0) count++;
+            if(grid[i][N - 1] == 1.0) count++;
+            if(grid[i - 1][N - 1] == 1.0) count++;
+        }
+        //Verificando se a célula está na borda inferior direita
+        else if(j == N - 1){
+            if(grid[i][j - 1] == 1.0) count++;
+            if(grid[i - 1][j - 1] == 1.0) count++;
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][0] == 1.0) count++;
+            if(grid[i ][0] == 1.0) count++;
+            if(grid[0][0] == 1.0) count++;
+            if(grid[0][j] == 1.0) count++;
+            if(grid[0][j - 1] == 1.0) count++;
+        }
+        //Verificando se a célula está na borda inferior central
+        else{
+            if(grid[i][j - 1] == 1.0) count++;
+            if(grid[i - 1][j - 1] == 1.0) count++;
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][j + 1] == 1.0) count++;
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[0][j + 1] == 1.0) count++;
+            if(grid[0][j] == 1.0) count++;
+            if(grid[0][j - 1] == 1.0) count++;
+        }
+    }else{
+        //Verificando se a célula está na borda esquerda
+        if(j == 0){
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][j + 1] == 1.0) count++;
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[i + 1][j + 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][N - 1] == 1.0) count++;
+            if(grid[i][N - 1] == 1.0) count++;
+            if(grid[i - 1][N - 1] == 1.0) count++;
+        }
+        //Verificando se a célula está na borda direita
+        else if(j == N - 1){
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][j - 1] == 1.0) count++;
+            if(grid[i][j - 1] == 1.0) count++;
+            if(grid[i + 1][j - 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][0] == 1.0) count++;
+            if(grid[i][0] == 1.0) count++;
+            if(grid[i - 1][0] == 1.0) count++;
+        }
+        //Verificando se a célula está no centro da matriz
+        else{
+            if(grid[i - 1][j - 1] == 1.0) count++;
+            if(grid[i - 1][j] == 1.0) count++;
+            if(grid[i - 1][j + 1] == 1.0) count++;
+            if(grid[i][j + 1] == 1.0) count++;
+            if(grid[i + 1][j] == 1.0) count++;
+            if(grid[i + 1][j + 1] == 1.0) count++;
+            if(grid[i + 1][j - 1] == 1.0) count++;
+            if(grid[i][j - 1] == 1.0) count++;
+        }
+    }
 }
 
 //Função que libera a memória alocada para a Matriz
