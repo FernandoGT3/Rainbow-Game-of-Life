@@ -43,7 +43,7 @@ void GenerateGrid(float **grid){
 }
 
 //Função que retorna a quantidade de vizinhos vivos de cada célula
-void getNeighbors(float **grid, int i, int j){
+int getNeighbors(float **grid, int i, int j){
     int count = 0;
 
     //Verificando se a célula está na borda superior
@@ -150,6 +150,66 @@ void getNeighbors(float **grid, int i, int j){
             if(grid[i][j - 1] == 1.0) count++;
         }
     }
+    
+    return count;
+}
+
+//Função que copia a nova geração para a geração atual
+void CopyGrid(float **grid, float **newGrid){
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            grid[i][j] = newGrid[i][j];
+        }
+    }
+}
+
+//Função que cria a próxima geração
+void CreateNextGen(float** grid, float** newGrid){
+    int count = 0;
+
+    //Pegando a quantidade de vizinhos vivos de cada célula na posição i,j
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            count = getNeighbors(grid, i, j);
+
+            //Verificando se a célula está viva
+            if(grid[i][j] == 1.0){
+                //Verificando se a célula tem menos de 2 vizinhos vivos --> Morrem por abandono
+                if(count < 2){
+                    newGrid[i][j] = 0.0;
+                }
+                //Verificando se a célula tem 2 ou 3 vizinhos vivos --> Continua Viva
+                else if(count == 2 || count == 3){
+                    newGrid[i][j] = 1.0;
+                }
+                //Verificando se a célula tem mais de 3 vizinhos vivos --> Morre por superpopulação
+                else if(count >= 3){
+                    newGrid[i][j] = 0.0;
+                }
+            }else{
+                //Verificando se a célula tem exatamente 3 vizinhos vivos --> Se torna Viva
+                if(count == 3){
+                    newGrid[i][j] = 1.0;
+                }else{
+                    newGrid[i][j] = 0.0;
+                }
+            }
+        }
+    }
+
+    CopyGrid(grid, newGrid);
+}
+
+float LivingCells(float** grid){
+    float sum = 0.0;
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            sum += grid[i][j];
+        }
+    }
+
+    return sum;
 }
 
 //Função que libera a memória alocada para a Matriz
@@ -173,8 +233,25 @@ int main(){
         newGrid[i] = (float*)malloc(N * sizeof(float));
     }
 
+    //Gerando a Matriz da Geração Atual
     GenerateGrid(grid);
-    PrintGrid(grid);
+
+    //Pegando a quantidade de vizinhos vivos de cada célula na posição i,j
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            getNeighbors(grid, i, j);
+        }
+    }
+
+    //Criando a Nova Geração
+    for(int generation = 0; generation < GEN; generation++){
+        CreateNextGen(grid, newGrid);
+
+        printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
+    }
+
+    //Imprimindo a Matriz da Geração Atual
+    //PrintGrid(grid);
 
     FreeGrid(grid);
     FreeGrid(newGrid);
