@@ -10,28 +10,14 @@
 // Estrutura para passar dados para as threads
 struct ThreadData
 {
-    float **grid;
-    float **newGrid;
-    int start_row;
-    int end_row;
-    float local_sum;
+    float **grid; // domínio atual
+    float **newGrid; // próximo domínio que foi gerado
+    int start_row; // primeira linha da threads
+    int end_row; // útlima linha da thread
+    float local_sum; // quantidade de células vivas de cada threads
 };
 
-// Função para imprimir a Matriz
-void PrintGrid(float **grid)
-{
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            printf("%.f|", grid[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-// Função que gera uma matriz de tamanho NxN com valor igual a 1
-
+// Função que gera uma matriz de tamanho NxN com valor igual a 1 -> gera a matriz inicial com o glider e o R-pentomino
 void GenerateGrid(float **grid)
 {
     for (int i = 0; i < N; i++)
@@ -62,7 +48,7 @@ void GenerateGrid(float **grid)
     grid[line + 2][col + 1] = 1.0;
 }
 
-// Função que retorna a quantidade de vizinhos vivos de cada célula
+// Função que retorna a quantidade de vizinhos vivos de cada célula 
 int getNeighbors(float **grid, int i, int j)
 {
     int count = 0;
@@ -272,7 +258,8 @@ void CopyGrid(float **grid, float **newGrid)
         }
     }
 }
-// Função para calcular o número de células vivas em uma parte da matriz
+
+// Função para calcular o número de células vivas em uma parte da matriz, isso é feito para paralelizar o calculo, assim, cada thread executa o calculo em x linhas
 void *CalculateLivingCells(void *arg)
 {
     struct ThreadData *data = (struct ThreadData *)arg;
@@ -294,6 +281,7 @@ void *CalculateLivingCells(void *arg)
 
     return NULL;
 }
+
 
 // Função que cria a próxima geração
 void CreateNextGen(float **grid, float **newGrid)
@@ -344,21 +332,6 @@ void CreateNextGen(float **grid, float **newGrid)
     CopyGrid(grid, newGrid);
 }
 
-float LivingCells(float **grid)
-{
-    float sum = 0.0;
-
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            sum += grid[i][j];
-        }
-    }
-
-    return sum;
-}
-
 // Função que libera a memória alocada para a Matriz
 void FreeGrid(float **grid)
 {
@@ -368,7 +341,6 @@ void FreeGrid(float **grid)
     }
     free(grid);
 }
-
 
 // Função a ser executada por cada thread para calcular a próxima geração
 void *CalculateNextGen(void *arg)
@@ -415,27 +387,31 @@ void *CalculateNextGen(void *arg)
 
 int main()
 {
+    // alocação dos grids
     float **grid = (float **)malloc(N * sizeof(float *));
     float **newGrid = (float **)malloc(N * sizeof(float *));
+
+    // criação de threads
     pthread_t threads[NUM_THREADS];
     struct ThreadData threadData[NUM_THREADS];
-    clock_t start_time, end_time;
 
+    // alocação dos espaços da matriz. 
     for (int i = 0; i < N; i++)
     {
         grid[i] = (float *)malloc(N * sizeof(float));
         newGrid[i] = (float *)malloc(N * sizeof(float));
     }
 
+    // gera o pontos no grid
     GenerateGrid(grid);
 
-    start_time = clock();
-
+    // loop para a criação das gerações
     for (int gen = 0; gen < GEN; gen++)
     {
         // Criando threads para calcular a próxima geração
         for (int t = 0; t < NUM_THREADS; t++)
         {
+            // aqui separamos a carga de cada thread de forma que seja equilibrado
             int start_row = t * (N / NUM_THREADS);
             int end_row = (t + 1) * (N / NUM_THREADS);
             threadData[t].grid = grid;
@@ -489,9 +465,6 @@ int main()
         printf("Geração %d: Número de células vivas = %.0f\n", gen + 1, total_cells);
     }
 
-    end_time = clock();
-
-    printf("Tempo de execução: %lf segundos\n", (double)(end_time - start_time) / CLOCKS_PER_SEC);
     FreeGrid(grid);
     FreeGrid(newGrid);
 
