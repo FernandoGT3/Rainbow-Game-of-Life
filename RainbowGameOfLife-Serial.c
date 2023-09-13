@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define N 50   // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 4 // Número de Gerações - Deve ser: 2000
+#define N 2048   // Tamanho do Tabuleiro - Deve ser: 2048
+#define GEN 500 // Número de Gerações - Deve ser: 2000
 
 // Função para imprimir a Matriz
 void PrintGrid(float **grid)
