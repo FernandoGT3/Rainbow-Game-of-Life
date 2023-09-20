@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <pthread.h>
+#include <omp.h>
 
 #define N 2048        // Tamanho do Tabuleiro - Deve ser: 2048
 #define GEN 500       // Número de Gerações - Deve ser: 2000
@@ -10,10 +11,10 @@
 // Estrutura para passar dados para as threads
 struct ThreadData
 {
-    float **grid; // domínio atual
+    float **grid;    // domínio atual
     float **newGrid; // próximo domínio que foi gerado
-    int start_row; // primeira linha da threads
-    int end_row; // útlima linha da thread
+    int start_row;   // primeira linha da threads
+    int end_row;     // útlima linha da thread
     float local_sum; // quantidade de células vivas de cada threads
 };
 
@@ -48,7 +49,7 @@ void GenerateGrid(float **grid)
     grid[line + 2][col + 1] = 1.0;
 }
 
-// Função que retorna a quantidade de vizinhos vivos de cada célula 
+// Função que retorna a quantidade de vizinhos vivos de cada célula
 int getNeighbors(float **grid, int i, int j)
 {
     int count = 0;
@@ -282,7 +283,6 @@ void *CalculateLivingCells(void *arg)
     return NULL;
 }
 
-
 // Função que cria a próxima geração
 void CreateNextGen(float **grid, float **newGrid)
 {
@@ -395,7 +395,7 @@ int main()
     pthread_t threads[NUM_THREADS];
     struct ThreadData threadData[NUM_THREADS];
 
-    // alocação dos espaços da matriz. 
+    // alocação dos espaços da matriz.
     for (int i = 0; i < N; i++)
     {
         grid[i] = (float *)malloc(N * sizeof(float));
@@ -408,7 +408,9 @@ int main()
     // loop para a criação das gerações
     for (int gen = 0; gen < GEN; gen++)
     {
-        // Criando threads para calcular a próxima geração
+        // -------------------------------------
+        // região paralela
+        //--------------------------------------
         for (int t = 0; t < NUM_THREADS; t++)
         {
             // aqui separamos a carga de cada thread de forma que seja equilibrado
@@ -427,6 +429,10 @@ int main()
             pthread_join(threads[t], NULL);
         }
 
+        // -------------------------------------
+        // fim da região paralela
+        //--------------------------------------
+
         // Trocando as matrizes de gerações
         float **temp = grid;
         grid = newGrid;
@@ -438,6 +444,9 @@ int main()
             threadData[t].local_sum = 0.0;
         }
 
+        // -------------------------------------
+        // região paralela
+        //--------------------------------------
         // Criando threads para calcular células vivas
         for (int t = 0; t < NUM_THREADS; t++)
         {
@@ -453,6 +462,10 @@ int main()
         {
             pthread_join(threads[t], NULL);
         }
+
+        // -------------------------------------
+        // fim da região paralela
+        //--------------------------------------
 
         // Somando as contagens locais para obter o total de células vivas
         float total_cells = 0.0;
