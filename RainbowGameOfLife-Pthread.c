@@ -1,3 +1,9 @@
+/*
+INTEGRANTES:
+    - Thomas Lincoln Victor da Silva - 156603
+    - Luiz Fernando de Cristo Moloni - 159325
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
