@@ -3,7 +3,7 @@
 #include <time.h>
 
 #define N 2048   // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 10 // Número de Gerações - Deve ser: 2000
+#define GEN 100 // Número de Gerações - Deve ser: 2000
 
 // Função para imprimir a Matriz
 void PrintGrid(float **grid)
@@ -18,8 +18,7 @@ void PrintGrid(float **grid)
     }
 }
 
-// Função que gera uma matriz de tamanho NxN com valor igual a 1
-
+// Função que gera uma matriz de tamanho NxN com valor igual a 0 e 1
 void GenerateGrid(float **grid)
 {
     for (int i = 0; i < N; i++)
@@ -249,18 +248,6 @@ int getNeighbors(float **grid, int i, int j)
     return count;
 }
 
-// Função que copia a nova geração para a geração atual
-void CopyGrid(float **grid, float **newGrid)
-{
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            grid[i][j] = newGrid[i][j];
-        }
-    }
-}
-
 // Função que cria a próxima geração
 void CreateNextGen(float **grid, float **newGrid)
 {
@@ -306,8 +293,6 @@ void CreateNextGen(float **grid, float **newGrid)
             }
         }
     }
-
-    CopyGrid(grid, newGrid);
 }
 
 float LivingCells(float **grid)
@@ -369,6 +354,11 @@ int main()
     {
         CreateNextGen(grid, newGrid);
 
+        //copia a nova geração para a geração atual
+        float **temp = grid;
+        grid = newGrid;
+        newGrid = temp;
+
         // PrintGrid(grid);
         printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
     }
@@ -381,8 +371,7 @@ int main()
 
     printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
 
-    // Imprimindo a Matriz da Geração Atual
-
+    // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);
     FreeGrid(newGrid);
 
