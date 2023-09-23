@@ -263,6 +263,7 @@ int getNeighbors(float **grid, int i, int j)
     return count;
 }
 
+//NÃO UTILIZADA
 // Função para calcular o número de células vivas em uma parte da matriz, isso é feito para paralelizar o calculo, assim, cada thread executa o calculo em x linhas
 void CalculateLivingCells(float **grid, int start_row, int end_row, float *local_sum)
 {
@@ -332,7 +333,7 @@ void CalculateNextGen(float **grid, float **newGrid, int start_row, int end_row,
                 }
             }
             
-            // Somando as contagens locais para obter o total de células vivas
+            // Somando o número de células vivas
             *total_cells += newGrid[i][j];
         }
     }
