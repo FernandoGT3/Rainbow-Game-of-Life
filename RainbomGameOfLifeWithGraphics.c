@@ -10,9 +10,9 @@ INTEGRANTES:
 #include <SDL2/SDL.h>
 
 // Definir as dimensões do tabuleiro
-#define LARGURA 500
-#define ALTURA 500
-#define TAMANHO_QUADRADO 5
+#define WIDTH 500
+#define HEIGHT 500
+#define SQUARE_SIZE 5
 
 #define N 1000  // Tamanho do Tabuleiro - Deve ser: 2048
 #define GEN 500 // Número de Gerações - Deve ser: 2000
@@ -332,15 +332,15 @@ void FreeGrid(float **grid)
     free(grid);
 }
 
-void desenharTabuleiro(SDL_Renderer *renderer, float **grid)
+void DrawBoard(SDL_Renderer *renderer, float **grid)
 {
     // Limpar a tela com a cor de fundo (branco)
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 
     // Definir as cores para preto e branco
-    SDL_Color corPreto = {0, 0, 0, 255};
-    SDL_Color corBranco = {255, 255, 255, 255};
+    SDL_Color BlackColor = {0, 0, 0, 255};
+    SDL_Color WhiteColor = {255, 255, 255, 255};
 
     // Desenhar o tabuleiro de xadrez baseado no grid
     for (int i = 0; i < N; i++)
@@ -348,18 +348,18 @@ void desenharTabuleiro(SDL_Renderer *renderer, float **grid)
         for (int j = 0; j < N; j++)
         {
             // Calcular as coordenadas do quadrado
-            int x = j * TAMANHO_QUADRADO;
-            int y = i * TAMANHO_QUADRADO;
+            int x = j * SQUARE_SIZE;
+            int y = i * SQUARE_SIZE;
 
             // Escolher a cor com base no valor do grid
-            SDL_Color cor = (grid[i][j] == 0) ? corPreto : corBranco;
+            SDL_Color color = (grid[i][j] == 0) ? BlackColor : WhiteColor;
 
             // Configurar a cor de desenho
-            SDL_SetRenderDrawColor(renderer, cor.r, cor.g, cor.b, cor.a);
+            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
             // Desenhar o quadrado
-            SDL_Rect quadrado = {x, y, TAMANHO_QUADRADO, TAMANHO_QUADRADO};
-            SDL_RenderFillRect(renderer, &quadrado);
+            SDL_Rect square = {x, y, SQUARE_SIZE, SQUARE_SIZE};
+            SDL_RenderFillRect(renderer, &square);
         }
     }
 
@@ -370,7 +370,7 @@ void desenharTabuleiro(SDL_Renderer *renderer, float **grid)
 int main()
 {
 
-    SDL_Window *janela;
+    SDL_Window *window;
     SDL_Renderer *renderer;
 
     // Inicializar o SDL
@@ -381,7 +381,7 @@ int main()
     }
 
     // Criar uma janela
-    if (SDL_CreateWindowAndRenderer(LARGURA, ALTURA, 0, &janela, &renderer) < 0)
+    if (SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer) < 0)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Erro ao criar janela e renderer: %s", SDL_GetError());
         return 1;
@@ -445,7 +445,7 @@ int main()
     FreeGrid(grid);
     FreeGrid(newGrid);
     SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(janela);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 
     return 0;
