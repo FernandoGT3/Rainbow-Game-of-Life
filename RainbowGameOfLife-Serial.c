@@ -7,6 +7,7 @@ INTEGRANTES:
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 
 #define N 2048   // Tamanho do Tabuleiro - Deve ser: 2048
 #define GEN 2000 // Número de Gerações - Deve ser: 2000
@@ -348,7 +349,7 @@ int main()
         newGrid[i] = (float *)malloc(N * sizeof(float));
     }
 
-    time_t start, end;
+    struct timeval start, end;
 
     // Gerando a Matriz da Geração Atual
     GenerateGrid(grid);
@@ -363,7 +364,7 @@ int main()
     }
 
     // clock_t start_time = clock();
-    time(&start);
+    gettimeofday(&start, NULL);
 
     // Criando a Nova Geração
     for (int generation = 0; generation < GEN; generation++)
@@ -387,13 +388,16 @@ int main()
 
     // Parar o cronômetro
     // clock_t end_time = clock();
-    time(&end);
+    gettimeofday(&end, NULL);
 
     // double elapsed_time = (double)(end_time - start_time)/CLOCKS_PER_SEC;
 
     // Calcular o tempo decorrido em segundos
     //printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
-    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, difftime(end, start));
+
+    // Calcular o tempo decorrido em segundos
+    double elapsed_time = (end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0);
+    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
 
     // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);

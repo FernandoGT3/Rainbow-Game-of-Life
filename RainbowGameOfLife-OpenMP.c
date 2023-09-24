@@ -9,12 +9,13 @@ INTEGRANTES:
 #include <time.h>
 #include <pthread.h>
 #include <omp.h>
+#include <sys/time.h>
 
 // gcc -fopenmp -g RainbowGameOfLife-OpenMP.c -o lifePragma para executar
 
 #define N 2048        // Tamanho do Tabuleiro - Deve ser: 2048
 #define GEN 2000      // Número de Gerações - Deve ser: 2000
-#define NUM_THREADS 8// Número de threads para paralelização
+#define NUM_THREADS 2// Número de threads para paralelização
 
 // Estrutura para passar dados para as threads
 struct ThreadData
@@ -359,7 +360,7 @@ int main()
     float **grid = (float **)malloc(N * sizeof(float *));
     float **newGrid = (float **)malloc(N * sizeof(float *));
 
-    time_t start, end;
+    struct timeval start, end;
 
     // Criação de threads
     pthread_t threads[NUM_THREADS];
@@ -378,7 +379,7 @@ int main()
     GenerateGrid(grid);
 
     // clock_t start_time = clock();
-    time(&start);
+    gettimeofday(&start, NULL);
 
     // loop para a criação das gerações
     for (int gen = 0; gen < GEN; gen++)
@@ -418,13 +419,16 @@ int main()
 
     // Parar o cronômetro
     // clock_t end_time = clock();
-    time(&end);
+    gettimeofday(&end, NULL);
 
     // double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
 
     // Calcular o tempo decorrido em segundos
     // printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
-    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, difftime(end, start));
+    
+    // Calcular o tempo decorrido em segundos
+    double elapsed_time = (end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0);
+    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
 
     // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);
