@@ -14,7 +14,7 @@ INTEGRANTES:
 #define HEIGHT 500
 #define SQUARE_SIZE 5
 
-#define N 1000  // Tamanho do Tabuleiro - Deve ser: 2048
+#define N 500  // Tamanho do Tabuleiro - Deve ser: 2048
 #define GEN 500 // Número de Gerações - Deve ser: 2000
 
 // Função para imprimir a Matriz
@@ -425,7 +425,7 @@ int main()
         newGrid = temp;
 
         // Chame a função para desenhar o tabuleiro
-        desenharTabuleiro(renderer, grid);
+        DrawBoard(renderer, grid);
 
         // PrintGrid(grid);
         printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
