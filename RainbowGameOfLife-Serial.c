@@ -9,14 +9,14 @@ INTEGRANTES:
 #include <time.h>
 
 #define N 2048   // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 500 // Número de Gerações - Deve ser: 2000
+#define GEN 2000 // Número de Gerações - Deve ser: 2000
 
 // Função para imprimir a Matriz
 void PrintGrid(float **grid)
 {
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < 50; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < 50; j++)
         {
             printf("%.f|", grid[i][j]);
         }
@@ -367,6 +367,12 @@ int main()
 
         // PrintGrid(grid);
         printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
+
+        // Imprimindo a Matriz da Geração Atual   
+        if(generation <= 5){
+            printf("\n");
+            PrintGrid(grid);
+        }
     }
 
     // Parar o cronômetro

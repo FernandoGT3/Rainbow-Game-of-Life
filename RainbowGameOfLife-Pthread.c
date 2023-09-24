@@ -11,7 +11,7 @@ INTEGRANTES:
 #include <omp.h>
 
 #define N 2048        // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 100       // Número de Gerações - Deve ser: 2000
+#define GEN 2000       // Número de Gerações - Deve ser: 2000
 #define NUM_THREADS 2 // Número de threads para paralelização
 
 // Estrutura para passar dados para as threads
@@ -27,9 +27,9 @@ struct ThreadData
 // Função para imprimir a Matriz
 void PrintGrid(float **grid)
 {
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < 50; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < 50; j++)
         {
             printf("%.f|", grid[i][j]);
         }
@@ -428,6 +428,12 @@ int main()
 
         // Imprimindo o número de células vivas na geração atual
         printf("Geração %d: Número de células vivas = %.0f\n", gen + 1, total_cells);
+
+        // Imprimindo a Matriz da Geração Atual   
+        if(gen <= 5){
+            printf("\n");
+            PrintGrid(grid);
+        }
     }
 
     // Parar o cronômetro
