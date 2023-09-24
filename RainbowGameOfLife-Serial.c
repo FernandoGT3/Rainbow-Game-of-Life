@@ -256,7 +256,7 @@ int getNeighbors(float **grid, int i, int j)
 }
 
 // Função que cria a próxima geração
-void CreateNextGen(float **grid, float **newGrid)
+void CreateNextGen(float **grid, float **newGrid, float* sum)
 {
     int count = 0;
 
@@ -301,6 +301,12 @@ void CreateNextGen(float **grid, float **newGrid)
                     newGrid[i][j] = 0.0;
                 }
             }
+
+            // Somando a quantidade de células vivas
+            if (newGrid[i][j] > 0.0)
+            {
+                *sum += 1.0;  
+            }  
         }
     }
 }
@@ -369,7 +375,8 @@ int main()
     // Criando a Nova Geração
     for (int generation = 0; generation < GEN; generation++)
     {
-        CreateNextGen(grid, newGrid);
+        float sum = 0; // Variável para somar a quantidade de células vivas
+        CreateNextGen(grid, newGrid, &sum);
 
         //copia a nova geração para a geração atual
         float **temp = grid;
@@ -377,7 +384,7 @@ int main()
         newGrid = temp;
 
         // PrintGrid(grid);
-        printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
+        printf("Geração %d: %.0f células vivas\n", generation + 1, sum);
 
         // Imprimindo a Matriz da Geração Atual   
         if(generation <= 5){

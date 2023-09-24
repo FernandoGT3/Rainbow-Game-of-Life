@@ -400,7 +400,7 @@ int main()
     }
 
     // clock_t start_time = clock();
-    time(&start);
+    gettimeofday(&start, NULL);
 
     // loop para a criação das gerações
     for (int gen = 0; gen < GEN; gen++)
