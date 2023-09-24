@@ -348,6 +348,8 @@ int main()
         newGrid[i] = (float *)malloc(N * sizeof(float));
     }
 
+    time_t start, end;
+
     // Gerando a Matriz da Geração Atual
     GenerateGrid(grid);
 
@@ -360,7 +362,9 @@ int main()
         }
     }
 
-    clock_t start_time = clock();
+    // clock_t start_time = clock();
+    time(&start);
+
     // Criando a Nova Geração
     for (int generation = 0; generation < GEN; generation++)
     {
@@ -375,19 +379,21 @@ int main()
         printf("Geração %d: %.0f células vivas\n", generation + 1, LivingCells(grid));
 
         // Imprimindo a Matriz da Geração Atual   
-        // if(generation <= 5){
-        //     printf("\n");
-        //     PrintGrid(grid);
-        // }
+        if(generation <= 5){
+            printf("\n");
+            PrintGrid(grid);
+        }
     }
 
     // Parar o cronômetro
-    clock_t end_time = clock();
+    // clock_t end_time = clock();
+    time(&end);
+
+    // double elapsed_time = (double)(end_time - start_time)/CLOCKS_PER_SEC;
 
     // Calcular o tempo decorrido em segundos
-    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    //printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, difftime(end, start));
 
     // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);

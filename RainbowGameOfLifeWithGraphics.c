@@ -10,12 +10,12 @@ INTEGRANTES:
 #include <SDL2/SDL.h>
 
 // Definir as dimensões do tabuleiro
-#define WIDTH 500
-#define HEIGHT 500
-#define SQUARE_SIZE 5
+#define WIDTH 400
+#define HEIGHT 400
+#define SQUARE_SIZE 3
 
-#define N 500  // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 500 // Número de Gerações - Deve ser: 2000
+#define N 400  // Tamanho do Tabuleiro - Deve ser: 2048
+#define GEN 1000 // Número de Gerações - Deve ser: 2000
 
 // Função para imprimir a Matriz
 void PrintGrid(float **grid)
@@ -72,61 +72,61 @@ int getNeighbors(float **grid, int i, int j)
         // Verificando se a célula está na borda superior esquerda
         if (j == 0)
         {
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j + 1] == 1.0)
+            if (grid[i + 1][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][N - 1] == 1.0)
+            if (grid[i + 1][N - 1] > 0.0)
                 count++;
-            if (grid[i][N - 1] == 1.0)
+            if (grid[i][N - 1] > 0.0)
                 count++;
-            if (grid[N - 1][N - 1] == 1.0)
+            if (grid[N - 1][N - 1] > 0.0)
                 count++;
-            if (grid[N - 1][j] == 1.0)
+            if (grid[N - 1][j] > 0.0)
                 count++;
-            if (grid[N - 1][j + 1] == 1.0)
+            if (grid[N - 1][j + 1] > 0.0)
                 count++;
         }
         // Verificando se a célula está na borda superior direita
         else if (j == N - 1)
         {
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j - 1] == 1.0)
+            if (grid[i + 1][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][0] == 1.0)
+            if (grid[i + 1][0] > 0.0)
                 count++;
-            if (grid[i][0] == 1.0)
+            if (grid[i][0] > 0.0)
                 count++;
-            if (grid[N - 1][0] == 1.0)
+            if (grid[N - 1][0] > 0.0)
                 count++;
-            if (grid[N - 1][j] == 1.0)
+            if (grid[N - 1][j] > 0.0)
                 count++;
-            if (grid[N - 1][j - 1] == 1.0)
+            if (grid[N - 1][j - 1] > 0.0)
                 count++;
         }
         // Verificando se a célula está na borda superior central
         else
         {
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j - 1] == 1.0)
+            if (grid[i + 1][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][j + 1] == 1.0)
+            if (grid[i + 1][j + 1] > 0.0)
                 count++;
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[N - 1][j + 1] == 1.0)
+            if (grid[N - 1][j + 1] > 0.0)
                 count++;
-            if (grid[N - 1][j] == 1.0)
+            if (grid[N - 1][j] > 0.0)
                 count++;
-            if (grid[N - 1][j - 1] == 1.0)
+            if (grid[N - 1][j - 1] > 0.0)
                 count++;
         }
     }
@@ -135,61 +135,61 @@ int getNeighbors(float **grid, int i, int j)
         // Verificando se a célula está na borda inferior esquerda
         if (j == 0)
         {
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][j + 1] == 1.0)
+            if (grid[i - 1][j + 1] > 0.0)
                 count++;
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[0][j + 1] == 1.0)
+            if (grid[0][j + 1] > 0.0)
                 count++;
-            if (grid[0][j] == 1.0)
+            if (grid[0][j] > 0.0)
                 count++;
-            if (grid[0][N - 1] == 1.0)
+            if (grid[0][N - 1] > 0.0)
                 count++;
-            if (grid[i][N - 1] == 1.0)
+            if (grid[i][N - 1] > 0.0)
                 count++;
-            if (grid[i - 1][N - 1] == 1.0)
+            if (grid[i - 1][N - 1] > 0.0)
                 count++;
         }
         // Verificando se a célula está na borda inferior direita
         else if (j == N - 1)
         {
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
-            if (grid[i - 1][j - 1] == 1.0)
+            if (grid[i - 1][j - 1] > 0.0)
                 count++;
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][0] == 1.0)
+            if (grid[i - 1][0] > 0.0)
                 count++;
-            if (grid[i][0] == 1.0)
+            if (grid[i][0] > 0.0)
                 count++;
-            if (grid[0][0] == 1.0)
+            if (grid[0][0] > 0.0)
                 count++;
-            if (grid[0][j] == 1.0)
+            if (grid[0][j] > 0.0)
                 count++;
-            if (grid[0][j - 1] == 1.0)
+            if (grid[0][j - 1] > 0.0)
                 count++;
         }
         // Verificando se a célula está na borda inferior central
         else
         {
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
-            if (grid[i - 1][j - 1] == 1.0)
+            if (grid[i - 1][j - 1] > 0.0)
                 count++;
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][j + 1] == 1.0)
+            if (grid[i - 1][j + 1] > 0.0)
                 count++;
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[0][j + 1] == 1.0)
+            if (grid[0][j + 1] > 0.0)
                 count++;
-            if (grid[0][j] == 1.0)
+            if (grid[0][j] > 0.0)
                 count++;
-            if (grid[0][j - 1] == 1.0)
+            if (grid[0][j - 1] > 0.0)
                 count++;
         }
     }
@@ -198,67 +198,68 @@ int getNeighbors(float **grid, int i, int j)
         // Verificando se a célula está na borda esquerda
         if (j == 0)
         {
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][j + 1] == 1.0)
+            if (grid[i - 1][j + 1] > 0.0)
                 count++;
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j + 1] == 1.0)
+            if (grid[i + 1][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][N - 1] == 1.0)
+            if (grid[i + 1][N - 1] > 0.0)
                 count++;
-            if (grid[i][N - 1] == 1.0)
+            if (grid[i][N - 1] > 0.0)
                 count++;
-            if (grid[i - 1][N - 1] == 1.0)
+            if (grid[i - 1][N - 1] > 0.0)
                 count++;
         }
         // Verificando se a célula está na borda direita
         else if (j == N - 1)
         {
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][j - 1] == 1.0)
+            if (grid[i - 1][j - 1] > 0.0)
                 count++;
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j - 1] == 1.0)
+            if (grid[i + 1][j - 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][0] == 1.0)
+            if (grid[i + 1][0] > 0.0)
                 count++;
-            if (grid[i][0] == 1.0)
+            if (grid[i][0] > 0.0)
                 count++;
-            if (grid[i - 1][0] == 1.0)
+            if (grid[i - 1][0] > 0.0)
                 count++;
         }
         // Verificando se a célula está no centro da matriz
         else
         {
-            if (grid[i - 1][j - 1] == 1.0)
+            if (grid[i - 1][j - 1] > 0.0)
                 count++;
-            if (grid[i - 1][j] == 1.0)
+            if (grid[i - 1][j] > 0.0)
                 count++;
-            if (grid[i - 1][j + 1] == 1.0)
+            if (grid[i - 1][j + 1] > 0.0)
                 count++;
-            if (grid[i][j + 1] == 1.0)
+            if (grid[i][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j] == 1.0)
+            if (grid[i + 1][j] > 0.0)
                 count++;
-            if (grid[i + 1][j + 1] == 1.0)
+            if (grid[i + 1][j + 1] > 0.0)
                 count++;
-            if (grid[i + 1][j - 1] == 1.0)
+            if (grid[i + 1][j - 1] > 0.0)
                 count++;
-            if (grid[i][j - 1] == 1.0)
+            if (grid[i][j - 1] > 0.0)
                 count++;
         }
     }
 
     return count;
 }
+
 
 // Função que cria a próxima geração
 void CreateNextGen(float **grid, float **newGrid)
@@ -273,7 +274,7 @@ void CreateNextGen(float **grid, float **newGrid)
             count = getNeighbors(grid, i, j);
 
             // Verificando se a célula está viva
-            if (grid[i][j] == 1.0)
+            if (grid[i][j] > 0.0)
             {
                 // Verificando se a célula tem menos de 2 vizinhos vivos --> Morrem por abandono
                 if (count < 2)
@@ -283,7 +284,7 @@ void CreateNextGen(float **grid, float **newGrid)
                 // Verificando se a célula tem 2 ou 3 vizinhos vivos --> Continua Viva
                 else if (count == 2 || count == 3)
                 {
-                    newGrid[i][j] = 1.0;
+                    newGrid[i][j] = grid[i][j];
                 }
                 // Verificando se a célula tem mais de 3 vizinhos vivos --> Morre por superpopulação
                 else if (count >= 3)
@@ -296,7 +297,10 @@ void CreateNextGen(float **grid, float **newGrid)
                 // Verificando se a célula tem exatamente 3 vizinhos vivos --> Se torna Viva
                 if (count == 3)
                 {
-                    newGrid[i][j] = 1.0;
+                    float value = count / 8.0;
+                    if(value > 1.0)
+                        value = 1.0;
+                    newGrid[i][j] = value;
                 }
                 else
                 {
@@ -315,7 +319,8 @@ float LivingCells(float **grid)
     {
         for (int j = 0; j < N; j++)
         {
-            sum += grid[i][j];
+            if(grid[i][j] > 0.0)
+                sum++;
         }
     }
 
@@ -341,6 +346,10 @@ void DrawBoard(SDL_Renderer *renderer, float **grid)
     // Definir as cores para preto e branco
     SDL_Color BlackColor = {0, 0, 0, 255};
     SDL_Color WhiteColor = {255, 255, 255, 255};
+    SDL_Color GrayColor = {105, 105, 105, 255};
+    SDL_Color LightgrayColor = {211, 211, 211, 255};
+
+    SDL_Color color;
 
     // Desenhar o tabuleiro de xadrez baseado no grid
     for (int i = 0; i < N; i++)
@@ -352,7 +361,14 @@ void DrawBoard(SDL_Renderer *renderer, float **grid)
             int y = i * SQUARE_SIZE;
 
             // Escolher a cor com base no valor do grid
-            SDL_Color color = (grid[i][j] == 0) ? BlackColor : WhiteColor;
+            if(grid[i][j] > 0.7 && grid[i][j] <= 1.0)
+                color = WhiteColor;
+            else if(grid[i][j] > 0.3 && grid[i][j] <= 0.7)
+                color = LightgrayColor;
+            else if(grid[i][j] > 0.0 && grid[i][j] <= 0.3)
+                color = GrayColor;
+            else
+                color = BlackColor;
 
             // Configurar a cor de desenho
             SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -401,6 +417,8 @@ int main()
         newGrid[i] = (float *)malloc(N * sizeof(float));
     }
 
+    time_t start, end;
+
     // Gerando a Matriz da Geração Atual
     GenerateGrid(grid);
 
@@ -413,7 +431,9 @@ int main()
         }
     }
 
-    clock_t start_time = clock();
+    // clock_t start_time = clock();
+    time(&start);
+
     // Criando a Nova Geração
     for (int generation = 0; generation < GEN; generation++)
     {
@@ -434,12 +454,14 @@ int main()
     }
 
     // Parar o cronômetro
-    clock_t end_time = clock();
+    // clock_t end_time = clock();
+    time(&end);
+
+    // double elapsed_time = (double)(end_time - start_time)/CLOCKS_PER_SEC;
 
     // Calcular o tempo decorrido em segundos
-    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    //printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, difftime(end, start));
 
     // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);

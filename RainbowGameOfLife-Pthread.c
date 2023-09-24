@@ -11,8 +11,8 @@ INTEGRANTES:
 #include <omp.h>
 
 #define N 2048        // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 2000       // Número de Gerações - Deve ser: 2000
-#define NUM_THREADS 2 // Número de threads para paralelização
+#define GEN 500       // Número de Gerações - Deve ser: 2000
+#define NUM_THREADS 8 // Número de threads para paralelização
 
 // Estrutura para passar dados para as threads
 struct ThreadData
@@ -373,6 +373,8 @@ int main()
     float **grid = (float **)malloc(N * sizeof(float *));
     float **newGrid = (float **)malloc(N * sizeof(float *));
 
+    time_t start, end;
+
     // Criação das Threads
     pthread_t threads[NUM_THREADS];
     struct ThreadData threadData[NUM_THREADS];
@@ -396,7 +398,8 @@ int main()
         threadData[t].end_row = (t + 1) * (N / NUM_THREADS);
     }
 
-    clock_t start_time = clock();
+    // clock_t start_time = clock();
+    time(&start);
 
     // loop para a criação das gerações
     for (int gen = 0; gen < GEN; gen++)
@@ -444,12 +447,14 @@ int main()
     }
 
     // Parar o cronômetro
-    clock_t end_time = clock();
+    // clock_t end_time = clock();
+    time(&end);
+
+    // double elapsed_time = (double)(end_time - start_time)/CLOCKS_PER_SEC;
 
     // Calcular o tempo decorrido em segundos
-    double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-
-    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    //printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, elapsed_time);
+    printf("Tempo total para as %d gerações: %.2f segundos\n", GEN, difftime(end, start));
 
     // Liberando a memória alocada para as Matrizes
     FreeGrid(grid);
