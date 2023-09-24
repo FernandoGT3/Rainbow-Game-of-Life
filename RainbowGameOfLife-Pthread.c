@@ -11,7 +11,7 @@ INTEGRANTES:
 #include <omp.h>
 
 #define N 2048        // Tamanho do Tabuleiro - Deve ser: 2048
-#define GEN 500       // Número de Gerações - Deve ser: 2000
+#define GEN 2000       // Número de Gerações - Deve ser: 2000
 #define NUM_THREADS 8 // Número de threads para paralelização
 
 // Estrutura para passar dados para as threads
